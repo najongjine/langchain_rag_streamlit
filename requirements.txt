@@ -1,0 +1,6 @@
+streamlit
+requests
+langchain>=0.1.14
+sentence-transformers
+faiss-cpu
+google-generativeai
