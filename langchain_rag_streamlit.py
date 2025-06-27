@@ -29,7 +29,7 @@ def load_vector_db():
 # Gemini API 설정
 @st.cache_resource
 def load_gemini_model():
-    genai.configure(api_key="YOUR_GEMINI_API_KEY")  # 🔑 본인의 Gemini API 키로 교체!
+    genai.configure(api_key="AIzaSyCj_KP3tWm9_3cgbjvQrZl5vv2M3_DBfZ0")  # 🔑 본인의 Gemini API 키로 교체!
     return genai.GenerativeModel("gemini-2.5-flash")
 
 # RAG 응답 함수
