@@ -1,7 +1,7 @@
 streamlit
 requests
-langchain>=0.1.14
-sentence-transformers
-faiss-cpu
-google-generativeai
-langchain-community
+langchain==0.2.14
+langchain-community==0.2.12
+sentence-transformers==2.7.0
+faiss-cpu==1.8.0.post1
+google-generativeai>=0.7.2
