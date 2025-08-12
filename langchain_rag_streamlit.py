@@ -1,16 +1,5 @@
 # https://najongjine-langchain-rag-streaml-langchain-rag-streamlit-jetrtl.streamlit.app/
-
-import os
-import requests
-import streamlit as st
-#from langchain.embeddings import HuggingFaceEmbeddings
-#from langchain.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAISS
-import google.generativeai as genai
-from pathlib import Path
 import sys, importlib, subprocess, pkgutil, platform
-
 st.write("Python:", sys.version)
 st.write("Executable:", sys.executable)
 st.write("Platform:", platform.platform())
@@ -24,6 +13,19 @@ def show(pkg):
 
 for pkg in ["langchain", "langchain_community", "sentence_transformers", "faiss", "faiss_cpu"]:
     show(pkg)
+
+import os
+import requests
+import streamlit as st
+#from langchain.embeddings import HuggingFaceEmbeddings
+#from langchain.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAISS
+import google.generativeai as genai
+from pathlib import Path
+
+
+
 
 # ▶ 스크립트와 동일한 경로 기준 설정
 BASE_DIR = Path(__file__).resolve().parent
