@@ -3,8 +3,10 @@
 import os
 import requests
 import streamlit as st
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import FAISS
+#from langchain.embeddings import HuggingFaceEmbeddings
+#from langchain.vectorstores import FAISS
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import FAIS
 import google.generativeai as genai
 from pathlib import Path
 
@@ -48,7 +50,8 @@ def ensure_local_faiss():
 def load_vector_db():
     ensure_local_faiss()
     embedding_model = HuggingFaceEmbeddings(
-        model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
+        model_name="intfloat/multilingual-e5-base",
+        encode_kwargs={"normalize_embeddings": True}
     )
     vector_db = FAISS.load_local(
         folder_path=str(FAISS_DIR),
