@@ -4,7 +4,15 @@ import streamlit as st
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import FAISS
 import google.generativeai as genai
+from pathlib import Path
 
+# ▶ 스크립트와 동일한 경로 기준 설정
+BASE_DIR = Path(__file__).resolve().parent
+FAISS_DIR = BASE_DIR / "faiss_data"   # 같은 폴더에 'faiss_data' 디렉토리로 가정
+FAISS_INDEX = FAISS_DIR / "index.faiss"
+FAISS_STORE = FAISS_DIR / "index.pkl"  # LangChain FAISS는 보통 .faiss + .pkl 세트
+
+"""
 # Hugging Face 저장소에서 FAISS 파일 다운로드
 @st.cache_resource
 def download_faiss_from_hf():
@@ -16,14 +24,35 @@ def download_faiss_from_hf():
         if not os.path.exists(file_path):
             with open(file_path, "wb") as f:
                 f.write(requests.get(f"{hf_url}/{fname}").content)
+"""
+@st.cache_resource
+def ensure_local_faiss():
+    """로컬 faiss 파일 존재 확인. 없으면 에러 후 중단."""
+    missing = []
+    if not FAISS_INDEX.exists():
+        missing.append(str(FAISS_INDEX))
+    if not FAISS_STORE.exists():
+        missing.append(str(FAISS_STORE))
+
+    if missing:
+        st.error(
+            "FAISS 파일을 찾을 수 없습니다.\n"
+            f"다음 경로에 파일을 두세요:\n- {FAISS_INDEX}\n- {FAISS_STORE}"
+        )
+        st.stop()
 
 # FAISS + 임베딩 모델 로드
 @st.cache_resource
 def load_vector_db():
+    ensure_local_faiss()
     embedding_model = HuggingFaceEmbeddings(
         model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2"
     )
-    vector_db = FAISS.load_local("faiss_data", embedding_model, allow_dangerous_deserialization=True)
+    vector_db = FAISS.load_local(
+        folder_path=str(FAISS_DIR),
+        embeddings=embedding_model,
+        allow_dangerous_deserialization=True,  # 신뢰 가능한 환경에서만 사용
+    )
     return vector_db.as_retriever()
 
 # Gemini API 설정
@@ -55,7 +84,7 @@ def gemini_rag_answer(query, retriever, model):
 # Streamlit 인터페이스
 st.title("📚 문서 검색 기반 Gemini 챗봇")
 
-download_faiss_from_hf()
+#download_faiss_from_hf()
 retriever = load_vector_db()
 model = load_gemini_model()
 
