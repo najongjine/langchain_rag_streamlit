@@ -9,6 +9,21 @@ from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_community.vectorstores import FAISS
 import google.generativeai as genai
 from pathlib import Path
+import sys, importlib, subprocess, pkgutil, platform
+
+st.write("Python:", sys.version)
+st.write("Executable:", sys.executable)
+st.write("Platform:", platform.platform())
+
+def show(pkg):
+    try:
+        mod = importlib.import_module(pkg)
+        st.success(f"import {pkg} ✅  ({mod.__file__})")
+    except Exception as e:
+        st.error(f"import {pkg} ❌  {e}")
+
+for pkg in ["langchain", "langchain_community", "sentence_transformers", "faiss", "faiss_cpu"]:
+    show(pkg)
 
 # ▶ 스크립트와 동일한 경로 기준 설정
 BASE_DIR = Path(__file__).resolve().parent
