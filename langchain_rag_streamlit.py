@@ -6,7 +6,7 @@ import streamlit as st
 #from langchain.embeddings import HuggingFaceEmbeddings
 #from langchain.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
-from langchain_community.vectorstores import FAIS
+from langchain_community.vectorstores import FAISS
 import google.generativeai as genai
 from pathlib import Path
 
